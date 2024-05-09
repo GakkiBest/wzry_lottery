@@ -37,10 +37,6 @@ public class DrawServiceImpl implements DrawService {
     @Resource
     private MagicPropMapper magicPropMapper;
 
-    
-
-
-
     @Override
     public String singleDraw() {
 
@@ -68,7 +64,7 @@ public class DrawServiceImpl implements DrawService {
             }
             currentCursor = currentCursor.add(award.getProbability());
         }
-        return "恭喜你获得" ;
+        return "" ;
     }
 
     @Override
@@ -147,7 +143,7 @@ public class DrawServiceImpl implements DrawService {
         // 获取随机幸运值
         BigDecimal randomValue = getSecurityRandomForFour();
 
-        BigDecimal currentCursor = new BigDecimal("0.00000");
+        BigDecimal currentCursor = new BigDecimal("0.0000");
         for (int i = 0; i < magicPropsList.size(); i++){
 
             if (randomValue.compareTo(currentCursor.add(magicPropsList.get(i).getProbability())) <= 0) {
