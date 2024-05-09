@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yutong.draw.mapper.RandomLimitSkinMapper">
+
+    <resultMap id="BaseResultMap" type="com.yutong.draw.domain.RandomLimitSkin">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="skinName" column="skin_name" jdbcType="VARCHAR"/>
+            <result property="probability" column="probability" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,skin_name,probability
+    </sql>
+    <select id="getRandomLimitSkinById" resultType="java.lang.String">
+        select skin_name from random_limit_skin where id = #{id};
+    </select>
+    <select id="getAllRandomLimitSkins" resultMap="BaseResultMap">
+        select * from random_limit_skin;
+    </select>
+    <select id="getSkinIdByName" resultType="java.lang.Long">
+        select id from random_limit_skin where skin_name = #{skinName};
+    </select>
+</mapper>

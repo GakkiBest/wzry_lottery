@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yutong.draw.mapper.AwardMapper">
+
+    <resultMap id="BaseResultMap" type="com.yutong.draw.domain.Award">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="awardName" column="award_name" jdbcType="VARCHAR"/>
+            <result property="probability" column="probability" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,award_name,probability
+    </sql>
+    <select id="getAwardNameById" parameterType="long" resultType="java.lang.String">
+        select award_name
+        from award
+        where id = #{id};
+    </select>
+    <select id="getAllAward" resultMap="BaseResultMap">
+        select id, award_name, probability from award;
+    </select>
+    <select id="getAwardById" resultMap="BaseResultMap">
+        select id, award_name, probability from award where id = #{id};
+    </select>
+    <select id="getAwardIdByAwardName" parameterType="string" resultType="java.lang.Long">
+        select id from award where award_name = #{awardName};
+    </select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yutong.draw.mapper.MagicPropMapper">
+
+    <resultMap id="BaseResultMap" type="com.yutong.draw.domain.MagicProp">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="propName" column="prop_name" jdbcType="VARCHAR"/>
+            <result property="probability" column="probability" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,prop_name,probability
+    </sql>
+    <select id="getMagicPropNameById" resultType="java.lang.String">
+        select prop_name from magic_prop where id = #{id};
+    </select>
+    <select id="getAllMagicProps" resultMap="BaseResultMap">
+        select * from magic_prop;
+    </select>
+</mapper>
