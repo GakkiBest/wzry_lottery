@@ -15,6 +15,8 @@ import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +60,10 @@ public class DrawServiceImpl implements DrawService {
                 } else if (awardId.equals(Constant.RandomSkinID)) {
                     return getRandomSkin();
                 } else if (awardId.equals(Constant.MAGICPROPID)) {
-                    return getMagicProp();
+                    String magicProp = getMagicProp();
+                    int drawPoint = getDrawPoint(magicProp);
+                    Constant.DRAWPOINTS += drawPoint;
+                    return magicProp;
                 }
                 return awardName;
             }
@@ -70,21 +75,41 @@ public class DrawServiceImpl implements DrawService {
     @Override
     public String tenDraw() {
 
-        /**
-         *  存储每次抽奖结果
+        /*
+           存储每次抽奖结果
          */
         List<String> result = new ArrayList<>();
 
         for (int i = 0; i < Constant.DRAW_QUANTITY; i++) {
             result.add(singleDraw());
         }
-
         StringBuilder resultString = new StringBuilder();
         for (String s : result) {
             resultString.append(s).append("\n");
         }
+        resultString.append("当前抽奖积分值为: ").append(Constant.DRAWPOINTS);
+        // 每次 10 连抽后检查抽奖积分，如果达到 999 积分，已经可以兑换两个令牌，清 0
+        if (Constant.DRAWPOINTS >= Constant.DRAWPOINTSTHRESHOLD) {
+            Constant.DRAWPOINTS = 0;
+        }
+
         return resultString.toString();
 
+    }
+
+    /**
+     * 匹配字符串中的数字
+     */
+    private static int getDrawPoint(String magicPropStr) {
+        int drawPoint;
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(magicPropStr);
+        if (matcher.find()) {
+            String number = matcher.group();
+            drawPoint = Integer.parseInt(number);
+            return drawPoint;
+        }
+        return 0;
     }
 
 
